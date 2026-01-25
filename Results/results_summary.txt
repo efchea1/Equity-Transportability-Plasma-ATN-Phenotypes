@@ -1,0 +1,49 @@
+================================================================================ 
+RESULTS SUMMARY: ATN EQUITY & TRANSPORTABILITY ANALYSIS
+================================================================================ 
+
+SAMPLE SIZES:
+                                  Description    N
+1                    Initial biomarker sample 4539
+2        After merging with tracker/cognition 4465
+3 Complete cases (all biomarkers + cognition) 4427
+4                       Missing any biomarker   38
+5                      Missing cognition 2016    0
+
+
+ATN DISTRIBUTION:
+  ATN_Profile    N    Percent
+1      A-T-N- 1145 25.6438970
+2      A-T-N+  838 18.7681971
+3      A-T+N-   90  2.0156775
+4      A-T+N+  391  8.7569989
+5      A+T-N-  844 18.9025756
+6      A+T-N+  584 13.0795073
+7      A+T+N-   82  1.8365062
+8      A+T+N+  453 10.1455767
+9        <NA>   38  0.8510638
+
+
+DEMOGRAPHICS (COMPLETE CASES):
+# A tibble: 1 × 8
+  Mean_Age SD_Age Pct_Female Pct_White Pct_Black Pct_Hispanic Mean_Education Mean_Cognition
+     <dbl>  <dbl>      <dbl>     <dbl>     <dbl>        <dbl>          <dbl>          <dbl>
+1     68.3   10.2       59.2      65.2      16.7         14.9           13.2           15.1
+
+
+KEY FINDINGS:
+                                                                  Finding
+1         Transportability: Weighted vs Unweighted ATN Prevalence Differs
+2     Education: Lower education associated with higher neurodegeneration
+3                   Fairness: TPR disparities exist across race/ethnicity
+4 Intersectionality: Race × Sex interactions reveal differential patterns
+5                   Missingness: Differential missingness by demographics
+                                       Evidence
+1 See Table_Transportability_ATN_Prevalence.csv
+2        See Table_Education_ATN_Prevalence.csv
+3           See Table_Fairness_Metrics_Race.csv
+4   See Table_Intersectional_ATN_Prevalence.csv
+5     See Table_Missingness_by_Demographics.csv
+
+
+Analysis completed: 1769239290 
