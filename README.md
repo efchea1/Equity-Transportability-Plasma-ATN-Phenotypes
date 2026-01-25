@@ -115,7 +115,7 @@ cd Equity-Transportability-Plasma-ATN-Phenotypes
 
 # 3. Install Required R Packages
 
-```{}
+```
 install.packages(c(
   # Core data manipulation & wrangling
   "dplyr", "tidyr", "tibble", "readr", "reshape2", "tidyverse",
