@@ -88,13 +88,13 @@ Do predicted risks match observed impairment rates across demographic groups?
 
 # 📊 Key Findings (from the manuscript)
 
-- Survey weighting **attenuates** amyloid and neurodegeneration associations by **45–50%**, revealing limited population‑level transportability.  
+- Survey weighting **attenuates** amyloid and neurodegeneration associations by **45-50%**, revealing limited population‑level transportability.  
 - Tau remains the **only robust** biomarker after weighting.  
 - Biomarker sensitivity (TPR) is **>2× higher** in White vs. Black participants.  
-- Black women show the **lowest sensitivity** across all education levels (TPR = 5–10%).  
+- Black women show the **lowest sensitivity** across all education levels (TPR = 5-10%).  
 - Calibration fails sharply in Black and Hispanic groups (slopes = 1.29–1.78).  
 - Education modifies biomarker effects, producing **paradoxical positive amyloid associations** in low‑education groups.  
-- Race‑specific Youden cutpoints differ by **30–40%**, indicating that universal thresholds may systematically misclassify minoritized individuals.  
+- Race‑specific Youden cutpoints differ by **30-40%**, indicating that universal thresholds may systematically misclassify minoritized individuals.  
 - Equity gaps persist even after adjusting for vascular comorbidities.
 
 ---
