@@ -1,0 +1,17 @@
+"Race_Sex_Group","AD_pathology","n","Percent","Total"
+"Black Men","AD pathology",36,14.4578313253012,249
+"Black Men","Amyloid only",70,28.1124497991968,249
+"Black Men","Normal biomarkers",69,27.710843373494,249
+"Black Men","Suspected non-AD",74,29.718875502008,249
+"Black Women","AD pathology",29,5.93047034764826,489
+"Black Women","Amyloid only",168,34.3558282208589,489
+"Black Women","Normal biomarkers",137,28.0163599182004,489
+"Black Women","Suspected non-AD",155,31.6973415132924,489
+"White Men","AD pathology",236,18.9863234111022,1243
+"White Men","Amyloid only",376,30.249396621078,1243
+"White Men","Normal biomarkers",286,23.0088495575221,1243
+"White Men","Suspected non-AD",345,27.7554304102977,1243
+"White Women","AD pathology",184,11.2058465286236,1642
+"White Women","Amyloid only",575,35.0182704019488,1642
+"White Women","Normal biomarkers",372,22.6552984165652,1642
+"White Women","Suspected non-AD",511,31.1205846528624,1642

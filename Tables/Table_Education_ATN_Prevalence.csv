@@ -1,0 +1,17 @@
+"Education","AD_pathology","n","Percent","Total"
+"Less than HS","AD pathology",103,12.3649459783914,833
+"Less than HS","Amyloid only",242,29.0516206482593,833
+"Less than HS","Normal biomarkers",200,24.0096038415366,833
+"Less than HS","Suspected non-AD",288,34.5738295318127,833
+"HS graduate","AD pathology",172,12.7501853224611,1349
+"HS graduate","Amyloid only",457,33.8769458858414,1349
+"HS graduate","Normal biomarkers",297,22.0163083765752,1349
+"HS graduate","Suspected non-AD",423,31.3565604151223,1349
+"Some college","AD pathology",127,11.5140525838622,1103
+"Some college","Amyloid only",356,32.2756119673617,1103
+"Some college","Normal biomarkers",297,26.9265639165911,1103
+"Some college","Suspected non-AD",323,29.283771532185,1103
+"College+","AD pathology",133,11.646234676007,1142
+"College+","Amyloid only",373,32.661996497373,1142
+"College+","Normal biomarkers",351,30.7355516637478,1142
+"College+","Suspected non-AD",285,24.9562171628722,1142

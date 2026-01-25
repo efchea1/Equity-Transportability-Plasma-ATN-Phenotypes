@@ -1,0 +1,4 @@
+"Comparison","Metric","Disparity"
+"White - Black","TPR",0.12
+"White - Hispanic","TPR",0.117
+"Male - Female","TPR",0.082

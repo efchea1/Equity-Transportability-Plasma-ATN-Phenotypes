@@ -1,0 +1,17 @@
+"Race_Ethnicity","Sex","Education","N","TP","FN","TPR","N_Impaired"
+"Black","Male","Less than HS",59,6,22,0.214285714285714,28
+"Black","Male","HS graduate",89,7,34,0.170731707317073,41
+"Black","Male","Some college",52,0,16,0,16
+"Black","Male","College+",52,1,6,0.142857142857143,7
+"Black","Female","Less than HS",112,5,58,0.0793650793650794,63
+"Black","Female","HS graduate",143,4,38,0.0952380952380952,42
+"Black","Female","Some college",143,1,18,0.0526315789473684,19
+"Black","Female","College+",92,2,10,0.166666666666667,12
+"White","Male","Less than HS",129,13,41,0.240740740740741,54
+"White","Male","HS graduate",383,30,55,0.352941176470588,85
+"White","Male","Some college",303,6,33,0.153846153846154,39
+"White","Male","College+",430,13,23,0.361111111111111,36
+"White","Female","Less than HS",180,13,43,0.232142857142857,56
+"White","Female","HS graduate",563,12,84,0.125,96
+"White","Female","Some college",456,16,36,0.307692307692308,52
+"White","Female","College+",451,0,22,0,22
