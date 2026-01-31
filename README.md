@@ -176,4 +176,5 @@ Independent Researcher • Health Data Scientist • Equity‑Focused Methodolog
 
 # 📄 License
 This project is released under the **MIT License**.
+
 You are free to reuse, modify, and build upon this work with attribution.
