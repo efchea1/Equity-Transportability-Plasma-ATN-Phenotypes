@@ -80,7 +80,7 @@ Do biomarkers exhibit equal sensitivity, specificity, and calibration across:
 
 3. Structural Disadvantage
 
-Does education—used here as a proxy for life‑course socioeconomic adversity—modify biomarker–cognition relationships?
+Does education, used here as a proxy for life‑course socioeconomic adversity, modify biomarker–cognition relationships?
 
 4. Calibration
 
