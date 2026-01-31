@@ -161,7 +161,7 @@ If you use this code, please cite:
 
 Preprint DOI: In progress
 
-Submitted to **eLife**
+**Peer-review journal publication:** *In-progress*
 
 ---
 
