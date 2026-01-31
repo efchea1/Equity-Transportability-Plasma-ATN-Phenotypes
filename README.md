@@ -88,8 +88,6 @@ Do predicted risks match observed impairment rates across demographic groups?
 
 ---
 
----
-
 # 🛠️ Repository Structure
 
 | **Folder & File** | **Description** |
