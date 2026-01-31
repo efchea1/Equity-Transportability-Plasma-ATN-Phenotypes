@@ -20,7 +20,7 @@ This repository contains the complete, fully reproducible analysis pipeline for 
 **Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort** 
 **Author:** Emmanuel Fle Chea, MPH
 
-Using 4,427 adults from the Health and Retirement Study (HRS) 2016 Venous Blood Study, this project evaluates whether plasma Alzheimer’s biomarkers—amyloid (A), tau (T), and neurodegeneration (N)—perform equitably across demographic groups and whether biomarker–cognition associations transport to the U.S. population when accounting for complex sampling.
+Using 4,427 adults from the Health and Retirement Study (HRS) 2016 Venous Blood Study, this project evaluates whether plasma Alzheimer’s biomarkers, amyloid (A), tau (T), and neurodegeneration (N), perform equitably across demographic groups and whether biomarker–cognition associations transport to the U.S. population when accounting for complex sampling.
 
 The pipeline quantifies:
 
