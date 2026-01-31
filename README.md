@@ -160,7 +160,7 @@ If you use this code, please cite:
 
 *Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort.*  
 
-Preprint DOI: In progress
+**Preprint DOI:** *In-progress*
 
 **Peer-review journal publication:** *In-progress*
 
