@@ -65,7 +65,7 @@ This study addresses four core questions:
 
 1. Transportability
 
-Do biomarker–cognition associations derived from convenience samples hold in a probability‑sampled U.S. population?
+Do biomarker-cognition associations derived from convenience samples hold in a probability‑sampled U.S. population?
 
 2. Fairness
 
