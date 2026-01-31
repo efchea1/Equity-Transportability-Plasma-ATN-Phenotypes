@@ -111,80 +111,68 @@ git clone https://github.com/efchea1/Equity-Transportability-Plasma-ATN-Phenotyp
 cd Equity-Transportability-Plasma-ATN-Phenotypes
 ```
 
-```
-# 2. Install R and RStudio
+---
 
-* R ≥ 4.3.0
+# Install R and RStudio
 
-* RStudio (recommended)
+- R ≥ 4.3.0
+
+- RStudio recommended
+
+---
 
 # 3. Install Required R Packages
 
 ```
-install.packages(c(
-  # Core data manipulation & wrangling
-  "dplyr", "tidyr", "tibble", "readr", "reshape2", "tidyverse",
+packages <- c(
+  "dplyr","tidyr","ggplot2","survey","pROC","tableone","knitr","kableExtra",
+  "gridExtra","scales","broom","boot","caret","haven","DiagrammeR",
+  "DiagrammeRsvg","rsvg","cutpointr","readr","plotROC","ROCR"
+)
 
-  # Survey weighting & complex design
-  "survey", "ResourceSelection",
-
-  # Modeling & inference
-  "nnet", "logistf", "lme4", "lmerTest", "PredictABEL", "rmda",
-
-  # Fairness, clustering, and unsupervised methods
-  "aricode", "cluster", "mclust", "fpc", "NbClust", "ppclust",
-
-  # Dimensionality reduction
-  "umap", "Rtsne", "factoextra",
-
-  # Visualization
-  "ggplot2", "ggpubr", "cowplot", "patchwork", "viridis",
-  "corrplot", "pheatmap", "GGally", "ggdendro", "ggplotify",
-
-  # Data quality & missingness
-  "naniar",
-
-  # Diagramming & network visualization
-  "DiagrammeR", "DiagrammeRsvg", "networkD3", "htmlwidgets", "rsvg",
-
-  # File handling & graphics
-  "tiff", "magick", "webshot2", "gridExtra", "glue",
-
-  # HRS data import
-  "haven"
-))
+install.packages(setdiff(packages, rownames(installed.packages())))
 ```
 
+---
+
 # 📁 Data Requirements
-HRS data cannot be redistributed.
 
 To reproduce the analysis:
 
-Register at: https://hrs.isr.umich.edu
+1. Register at: https://hrs.isr.umich.edu
 
-Request access to the 2016 Venous Blood Study biomarker files
+2. Request access to the 2016 Venous Blood Study biomarker files
 
-Download the required datasets (SAS format)
+3. Download the required SAS datasets
 
-Place them in your local working directory
+4. Place them in your working directory
 
-Run the analysis pipeline (Equity_Study.Rmd), which includes all preprocessing and modeling steps
+5. Run `Equity_Study.Rmd`
+
+The pipeline includes all preprocessing, survey design specification, modeling, and figure/table generation.
+
+---
 
 # 📜 Citation
+
 If you use this code, please cite:
 
-Chea, E.F.
-**Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort.**  
+**Chea, E.F.**
+*Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort.*  
+
 Preprint DOI: In progress
 
-Peer‑review journal submission: In preparation for **eLife**
+Submitted to **eLife**
+
+---
 
 # 👤 Author
-Emmanuel Fle Chea, MPH  
+**Emmanuel Fle Chea, MPH**  
 Independent Researcher • Health Data Scientist • Equity‑Focused Methodologist
 📧 **Email:** emmanuelf.chea@gmail.com
 
+---
+
 # 📄 License
-This project is released under the MIT License.
-See the LICENSE file for full terms.
+This project is released under the **MIT License**.
 You are free to reuse, modify, and build upon this work with attribution.
