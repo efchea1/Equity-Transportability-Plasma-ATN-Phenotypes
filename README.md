@@ -1,51 +1,46 @@
 <div align="center">
 
-  <h1><strong>Equity & Transportability of Plasma ATN Phenotypes</strong></h1>
-  <h3><strong>Reproducible Analysis Pipeline for Evaluating Fairness, Calibration, and Population Transportability of Plasma Alzheimer’s Biomarkers</strong></h3>
+<h1><strong>Equity & Transportability of Plasma ATN Phenotypes</strong></h1>
+<h3><strong>Reproducible Pipeline for Fairness, Calibration, and Population‑Representative Evaluation of Plasma Alzheimer’s Biomarkers</strong></h3>
 
-  <p>
-    <img src="https://img.shields.io/badge/Made%20with-R-276DC3.svg">
-    <img src="https://img.shields.io/badge/Data-HRS%202016-blue.svg">
-    <img src="https://img.shields.io/badge/Focus-Health%20Equity-purple.svg">
-  </p>
+<p>
+<img src="https://img.shields.io/badge/Made%20with-R-276DC3.svg">
+<img src="https://img.shields.io/badge/Data-HRS%202016-blue.svg">
+<img src="https://img.shields.io/badge/Focus-Health%20Equity-purple.svg">
+<img src="https://img.shields.io/badge/Open%20Science-Reproducible-green.svg">
+</p>
 
 </div>
 
 ---
 
-# 🛠️ Repository Structure
-
-| **Folder & File** | **Description** |
-|-------------------|-----------------|
-| **Code** | Full R Markdown pipeline (`Equity_Study.Rmd`) implementing all analyses (survey weighting, fairness metrics, calibration, interactions, sensitivity analyses) |
-| **Figures** | All exported plots (fairness heatmaps, calibration curves, stratified associations, biomarker distributions) |
-| **Tables** | CSV outputs for all tables (TPR/FPR by subgroup, calibration statistics, interaction models, stratified regressions, cutpoint analyses) |
-| **Results** | Saved model objects, bootstrap outputs, and intermediate analysis artifacts |
-| **Data** | *(Empty)* — HRS data must be obtained through the official portal; raw HRS data are not included |
-| **License** | MIT License |
-
----
-
 # 📘 Overview
+This repository contains the complete, fully reproducible analysis pipeline for the manuscript:
 
-This repository contains the complete reproducible analysis pipeline for the manuscript:
+**Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort** 
+**Author:** Emmanuel Fle Chea, MPH
 
-**Equity and Transportability of Plasma ATN Phenotypes in a Population‑Representative U.S. Aging Cohort**  
-*Author: Emmanuel Fle Chea, MPH*
+Using 4,427 adults from the Health and Retirement Study (HRS) 2016 Venous Blood Study, this project evaluates whether plasma Alzheimer’s biomarkers—amyloid (A), tau (T), and neurodegeneration (N)—perform equitably across demographic groups and whether biomarker–cognition associations transport to the U.S. population when accounting for complex sampling.
 
-This project evaluates whether plasma Alzheimer’s biomarkers—amyloid (A), tau (T), and neurodegeneration (N)—perform equitably across demographic groups and whether biomarker‑cognition associations **transport** to the U.S. population when accounting for complex sampling.
+The pipeline quantifies:
 
-Using **4,427 adults** from the **Health and Retirement Study (HRS) 2016 Venous Blood Study**, this pipeline quantifies:
+- population‑representative ATN prevalence
 
-- population‑representative ATN prevalence  
-- weighted vs. unweighted biomarker‑cognition associations  
-- fairness disparities across race, sex, and education  
-- calibration failures in minoritized groups  
-- race‑specific and education‑specific biomarker effects  
-- sensitivity to cutpoints and missingness  
-- implications for equitable biomarker‑based screening  
+- weighted vs. unweighted biomarker–cognition associations
 
-This repository is designed for **transparency**, **reproducibility**, and **open scientific practice**.
+- fairness disparities across race, sex, and intersectional groups
+
+- calibration failures in minoritized populations
+
+- education as structural disadvantage
+
+- race‑specific and education‑specific biomarker effects
+
+- sensitivity to cutpoints and missingness
+
+- implications for equitable biomarker‑based screening
+
+This repository is designed for transparency, reproducibility, and open scientific practice, consistent with FAIR principles.
 
 ---
 
@@ -59,7 +54,46 @@ This repository is designed for **transparency**, **reproducibility**, and **ope
 | **T**    | p‑tau181       | Tau pathology          |
 | **N**    | NfL or GFAP    | Neurodegeneration / astrocytic injury |
 
-ATN uses **binary cutpoints**, which may not generalize across diverse populations and may obscure continuous biological variation.
+ATN cutpoints are typically derived from highly selected clinical cohorts. This project evaluates whether these thresholds and associations **generalize** to a nationally representative population.
+
+---
+
+# Equity, Fairness & Transportability
+
+This study addresses four core questions:
+
+1. Transportability
+Do biomarker–cognition associations derived from convenience samples hold in a probability‑sampled U.S. population?
+
+2. Fairness
+Do biomarkers exhibit equal sensitivity, specificity, and calibration across:
+- race
+- sex
+
+education
+
+intersectional groups (race × sex × education)
+
+3. Structural Disadvantage
+Does education—used here as a proxy for life‑course socioeconomic adversity—modify biomarker–cognition relationships?
+
+4. Calibration
+Do predicted risks match observed impairment rates across demographic groups?
+
+---
+
+---
+
+# 🛠️ Repository Structure
+
+| **Folder & File** | **Description** |
+|-------------------|-----------------|
+| **Code** | Full R Markdown pipeline (`Equity_Study.Rmd`) implementing all analyses (survey weighting, fairness metrics, calibration, interactions, sensitivity analyses) |
+| **Figures** | All exported plots (fairness heatmaps, calibration curves, stratified associations, biomarker distributions) |
+| **Tables** | CSV outputs for all tables (TPR/FPR by subgroup, calibration statistics, interaction models, stratified regressions, cutpoint analyses) |
+| **Results** | Saved model objects, bootstrap outputs, and intermediate analysis artifacts |
+| **Data** | *(Empty)* — HRS data must be obtained through the official portal; raw HRS data are not included |
+| **License** | MIT License |
 
 ---
 
