@@ -96,7 +96,7 @@ Do predicted risks match observed impairment rates across demographic groups?
 | **Figures** | All exported plots (fairness heatmaps, calibration curves, stratified associations, biomarker distributions, etc.) |
 | **Tables** | CSV outputs for all tables (TPR/FPR by subgroup, calibration statistics, interaction models, stratified regressions, cutpoint analyses, etc.) |
 | **Results** | Saved model objects, bootstrap outputs, and intermediate analysis artifacts |
-| **Data** | *(Empty)* — (Empty) — HRS data cannot be redistributed; users must obtain data from HRS |
+| **Data** | *(Empty)* - HRS data cannot be redistributed; users must obtain data from HRS |
 | **License** | MIT License |
 
 ---
