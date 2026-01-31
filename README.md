@@ -169,6 +169,7 @@ If you use this code, please cite:
 # 👤 Author
 **Emmanuel Fle Chea, MPH**  
 Independent Researcher • Health Data Scientist • Equity‑Focused Methodologist
+
 📧 **Email:** emmanuelf.chea@gmail.com
 
 ---
