@@ -27,7 +27,7 @@ The pipeline quantifies:
 
 - population‑representative ATN prevalence
 
-- weighted vs. unweighted biomarker–cognition associations
+- weighted vs. unweighted biomarker-cognition associations
 
 - fairness disparities across race, sex, and intersectional groups
 
