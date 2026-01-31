@@ -63,21 +63,27 @@ ATN cutpoints are typically derived from highly selected clinical cohorts. This 
 This study addresses four core questions:
 
 1. Transportability
+
 Do biomarker–cognition associations derived from convenience samples hold in a probability‑sampled U.S. population?
 
 2. Fairness
+
 Do biomarkers exhibit equal sensitivity, specificity, and calibration across:
+
 - race
+
 - sex
 
-education
+- education
 
-intersectional groups (race × sex × education)
+- intersectional groups (race × sex × education)
 
 3. Structural Disadvantage
+
 Does education—used here as a proxy for life‑course socioeconomic adversity—modify biomarker–cognition relationships?
 
 4. Calibration
+
 Do predicted risks match observed impairment rates across demographic groups?
 
 ---
@@ -88,35 +94,12 @@ Do predicted risks match observed impairment rates across demographic groups?
 
 | **Folder & File** | **Description** |
 |-------------------|-----------------|
-| **Code** | Full R Markdown pipeline (`Equity_Study.Rmd`) implementing all analyses (survey weighting, fairness metrics, calibration, interactions, sensitivity analyses) |
-| **Figures** | All exported plots (fairness heatmaps, calibration curves, stratified associations, biomarker distributions) |
-| **Tables** | CSV outputs for all tables (TPR/FPR by subgroup, calibration statistics, interaction models, stratified regressions, cutpoint analyses) |
+| **Code** | Full R Markdown pipeline (`Equity_Study.Rmd`) implementing all analyses: survey weighting, fairness metrics, calibration, interactions, sensitivity analyses |
+| **Figures** | All exported plots (fairness heatmaps, calibration curves, stratified associations, biomarker distributions, etc.) |
+| **Tables** | CSV outputs for all tables (TPR/FPR by subgroup, calibration statistics, interaction models, stratified regressions, cutpoint analyses, etc.) |
 | **Results** | Saved model objects, bootstrap outputs, and intermediate analysis artifacts |
-| **Data** | *(Empty)* — HRS data must be obtained through the official portal; raw HRS data are not included |
+| **Data** | *(Empty)* — (Empty) — HRS data cannot be redistributed; users must obtain data from HRS |
 | **License** | MIT License |
-
----
-
-## **Equity & Transportability**
-
-This project evaluates:
-
-### **1. Transportability**
-Do biomarker‑cognition associations derived from convenience samples hold in a nationally representative population?
-
-### **2. Fairness**
-Do biomarkers exhibit equal sensitivity, specificity, and calibration across:
-
-- race  
-- sex  
-- education  
-- intersectional groups (race × sex × education)  
-
-### **3. Structural Disadvantage**
-Does education (as a proxy for life‑course socioeconomic adversity) modify biomarker‑cognition relationships?
-
-### **4. Calibration**
-Do predicted risks match observed impairment rates across demographic groups?
 
 ---
 
@@ -126,6 +109,7 @@ Do predicted risks match observed impairment rates across demographic groups?
 ```bash
 git clone https://github.com/efchea1/Equity-Transportability-Plasma-ATN-Phenotypes.git
 cd Equity-Transportability-Plasma-ATN-Phenotypes
+```
 
 ```
 # 2. Install R and RStudio
