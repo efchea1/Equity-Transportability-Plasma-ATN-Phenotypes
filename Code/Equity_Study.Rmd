@@ -50,6 +50,9 @@ theme_set(
       legend.position = "bottom"
     )
 )
+
+# Reproducibility
+set.seed(2026)
 ```
 
 
