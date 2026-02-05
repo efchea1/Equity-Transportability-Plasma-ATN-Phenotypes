@@ -39,7 +39,7 @@ dir.create("tables", showWarnings = FALSE)
 dir.create("results", showWarnings = FALSE)
 dir.create("figures", showWarnings = FALSE)
 dir.create("figures/png", showWarnings = FALSE, recursive = TRUE)
-dir.create("figures/tiff", showWarnings = FALSE, recursive = TRUE)
+dir.create("figures/tif", showWarnings = FALSE, recursive = TRUE)
 
 # Set ggplot theme
 theme_set(
@@ -58,15 +58,18 @@ set.seed(2026)
 
 # DATA LOADING & PREPARATION
 
+# NOTE: These SAS files come from the HRS Restricted Data Agreement (RDA).
+# Paths assume local decrypted storage per RDA rules.
+
 ```{r}
 #############################################
 # DATA LOADING & PREPARATION
 #############################################
 
-# Raw HRS files (update paths as needed)
-trk2020        <- read_sas("trk2020tr_r.sas7bdat")
-neurobiomarker <- read_sas("neurobiomarker_sithara.sas7bdat")
-cogimp         <- read_sas("cogimp9220a_r.sas7bdat")
+# Raw HRS files
+trk2020        <- read_sas("trk2020tr_r.sas7bdat") # trk2020: HRS tracker file with demographics, weights, strata, PSU
+neurobiomarker <- read_sas("neurobiomarker_sithara.sas7bdat") # neurobiomarker: plasma ATN biomarkers (Aβ42/40, pTau181, NfL, GFAP)
+cogimp         <- read_sas("cogimp9220a_r.sas7bdat") # cogimp: cognitive impairment classification (Langa-Weir)
 
 n_trk_initial <- nrow(trk2020)
 n_bio_initial <- nrow(neurobiomarker)
@@ -100,7 +103,7 @@ health2016 <- read_fwf(
   )
 )
 
-# Clean
+# In HRS, 1 = Yes, 5 = No for many health conditions; other codes = missing
 health2016_clean <- health2016 %>%
   mutate(
     HYPERTENSION = ifelse(HYPERTENSION == 1, 1,
@@ -191,9 +194,17 @@ cat("Cognition subset N:", n_cog_complete, "\n")
 # MERGE INTO FINAL ANALYTIC DATASET
 #############################################
 
+# Inner joins ensure analytic sample includes only participants with biomarkers, tracker data, and cognition. 
+# Vascular data is optional, so left_join preserves all biomarker participants.
+
 # Add merge key to health data
 health2016_clean <- health2016_clean %>%
   mutate(HHID_PN = paste0(HHID, "_", PN))
+
+# Check for duplicate IDs before merging 
+stopifnot(anyDuplicated(neurobiomarker$HHID_PN) == 0) 
+stopifnot(anyDuplicated(trk2020_sub$HHID_PN) == 0) 
+stopifnot(anyDuplicated(cogimp_sub$HHID_PN) == 0)
 
 # Merge all datasets
 final <- neurobiomarker %>%
@@ -227,6 +238,11 @@ final <- final %>%
 #############################################
 # ATN CLASSIFICATION
 #############################################
+
+# Thresholds based on published plasma biomarker literature: 
+# A+: AB42/40 < 0.063 
+# T+: pTau181 > 2.5 pg/mL 
+# N+: NfL > 20 pg/mL or GFAP > 100 pg/mL
 
 final <- final %>%
   mutate(
@@ -290,6 +306,8 @@ print(table(final$AD_pathology, useNA = "always"))
 # DEMOGRAPHIC VARIABLES
 #############################################
 
+# HISPANIC codes 1-3 represent Hispanic ethnicity; overrides race per standard practice
+
 final <- final %>%
   mutate(
     Race_Ethnicity = case_when(
@@ -341,6 +359,8 @@ final <- final %>%
 # COGNITIVE VARIABLES
 #############################################
 
+# A decline of ≥3 points over 4 years is commonly used to indicate meaningful cognitive decline
+
 final <- final %>%
   mutate(
     Cog_Change = Cog_Score_2020 - Cog_Score_2016,
@@ -370,6 +390,9 @@ final <- final %>%
 # MISSINGNESS VARIABLES
 #############################################
 
+# Complete case defined using baseline cognition (2016) + all biomarkers. 
+# 2020 cognition is not required because some analyses use cross-sectional biomarker associations.
+
 final <- final %>%
   mutate(
     Missing_NfL        = is.na(NfL),
@@ -398,6 +421,7 @@ print(missingness_summary)
 ```
 
 # SURVEY DESIGN OBJECTS
+# HRS uses a multistage area probability design with stratification and clustering
 
 ```{r}
 #############################################
@@ -405,6 +429,7 @@ print(missingness_summary)
 #############################################
 
 # Remove rows with missing weights
+# HRS requires sampling weights for valid population inference; cases with missing weights are excluded
 final_weighted <- final %>% 
   filter(!is.na(PVBSWGTR))
 
@@ -416,6 +441,7 @@ svy_design <- svydesign(
   nest    = TRUE
 )
 
+# Complete-case survey design for analyses requiring full biomarker + cognition data
 svy_design_complete <- svydesign(
   ids     = ~SECU,
   strata  = ~STRATUM,
@@ -436,7 +462,10 @@ cat("Complete cases with weights:", sum(final_weighted$Complete_Case), "\n")
 # RACE DISTRIBUTION SUMMARIES
 #############################################
 
-# 1. Total N by Race
+# Check for unexpected race categories
+table(final$Race_Ethnicity, useNA = "ifany")
+
+# Total N by Race
 race_total <- final %>%
   group_by(Race_Ethnicity) %>%
   summarise(
@@ -444,7 +473,7 @@ race_total <- final %>%
     .groups = "drop"
   )
 
-# 2. Complete-case N by Race
+# Complete-case N by Race
 race_complete <- final %>%
   group_by(Race_Ethnicity) %>%
   summarise(
@@ -452,7 +481,7 @@ race_complete <- final %>%
     .groups = "drop"
   )
 
-# 3. Biomarker-available N by Race
+# Biomarker-available N by Race
 race_biomarker <- final %>%
   group_by(Race_Ethnicity) %>%
   summarise(
@@ -460,7 +489,8 @@ race_biomarker <- final %>%
     .groups = "drop"
   )
 
-# 4. Race × Sex N
+# Race × Sex N
+# Intersectional counts used for fairness and subgroup analyses
 race_sex_counts <- final %>%
   group_by(Race_Ethnicity, Sex) %>%
   summarise(
@@ -474,6 +504,7 @@ race_sex_counts <- final %>%
 # MERGE INTO ONE SUPPLEMENT TABLE
 #############################################
 
+# Merge race-level summaries; left_join preserves all race categories
 race_summary <- race_total %>%
   left_join(race_complete, by = "Race_Ethnicity") %>%
   left_join(race_biomarker, by = "Race_Ethnicity") %>%
@@ -641,14 +672,14 @@ print(p_forest)
 ggsave("figures/png/Figure_Transportability_Forest.png", p_forest,
        width = 10, height = 6, dpi = 300)
 
-ggsave("figures/tiff/Figure_Transportability_Forest.tiff", p_forest,
+ggsave("figures/tif/Figure_Transportability_Forest.tif", p_forest,
        width = 10, height = 6, dpi = 300, compression = "lzw")
 ```
 
 
 ```{r}
 ############################################################
-# 0. CLEAN OUTCOME VARIABLE
+# CLEAN OUTCOME VARIABLE
 ############################################################
 
 # Remove the corrupted variable
@@ -673,7 +704,7 @@ str(final$CogImp_2016)
 
 ```{r}
 ############################################################
-# 1. GLOBAL ROC (pROC)
+# GLOBAL ROC (pROC)
 ############################################################
 
 roc_obj <- pROC::roc(
@@ -687,9 +718,10 @@ print(roc_obj)
 pROC::ci.auc(roc_obj)
 ```
 
+
 # ANALYSIS 2: INTERSECTIONAL SUBGROUPS (Race × Sex)
 
-#### Intersectional analyses were restricted to White and Black participants, the two largest racial groups in the 2016 HRS Venous Blood Study. Hispanic and Other racial groups were excluded from stratified analyses due to small sample sizes and high variance in biomarker distributions, which precluded stable subgroup estimation.
+# Intersectional analyses were restricted to White and Black participants, the two largest racial groups in the 2016 HRS Venous Blood Study. Hispanic and Other racial groups were excluded from stratified analyses due to small sample sizes and high variance in biomarker distributions, which precluded stable subgroup estimation.
 
 ```{r}
 #############################################
@@ -816,7 +848,7 @@ print(p_intersectional_bio)
 
 ggplot2::ggsave("figures/png/Figure_Intersectional_Biomarkers.png", p_intersectional_bio,
                 width = 12, height = 10, dpi = 300)
-ggplot2::ggsave("figures/tiff/Figure_Intersectional_Biomarkers.tiff", p_intersectional_bio,
+ggplot2::ggsave("figures/tif/Figure_Intersectional_Biomarkers.tif", p_intersectional_bio,
                 width = 12, height = 10, dpi = 300, compression = "lzw")
 
 # ---------------------------------------------------------
@@ -924,7 +956,7 @@ if (nrow(roc_results) > 0) {
   
   ggplot2::ggsave("figures/png/Figure_Intersectional_ROC.png", p_roc,
                   width = 12, height = 8, dpi = 300)
-  ggplot2::ggsave("figures/tiff/Figure_Intersectional_ROC.tiff", p_roc,
+  ggplot2::ggsave("figures/tif/Figure_Intersectional_ROC.tif", p_roc,
                   width = 12, height = 8, dpi = 300, compression = "lzw")
 }
 ```
@@ -1023,7 +1055,7 @@ print(p_edu_bio)
 
 ggsave("figures/png/Figure_Education_Biomarkers.png", p_edu_bio,
        width = 12, height = 10, dpi = 300)
-ggsave("figures/tiff/Figure_Education_Biomarkers.tiff", p_edu_bio,
+ggsave("figures/tif/Figure_Education_Biomarkers.tif", p_edu_bio,
        width = 12, height = 10, dpi = 300, compression = "lzw")
 
 # ---------------------------------------------------------
@@ -1137,7 +1169,7 @@ print(p_edu_forest)
 
 ggsave("figures/png/Figure_Education_Forest.png", p_edu_forest,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Education_Forest.tiff", p_edu_forest,
+ggsave("figures/tif/Figure_Education_Forest.tif", p_edu_forest,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -1301,7 +1333,7 @@ print(p_fairness)
 
 ggsave("figures/png/Figure_Fairness_Metrics.png", p_fairness,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Fairness_Metrics.tiff", p_fairness,
+ggsave("figures/tif/Figure_Fairness_Metrics.tif", p_fairness,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -1494,7 +1526,7 @@ print(p_missingness)
 
 ggsave("figures/png/Figure_Missingness.png", p_missingness,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Missingness.tiff", p_missingness,
+ggsave("figures/tif/Figure_Missingness.tif", p_missingness,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -1619,7 +1651,7 @@ print(p_cog_gradients)
 
 ggsave("figures/png/Figure_Cognitive_Gradients.png", p_cog_gradients,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Cognitive_Gradients.tiff", p_cog_gradients,
+ggsave("figures/tif/Figure_Cognitive_Gradients.tif", p_cog_gradients,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -1698,7 +1730,7 @@ print(p_race_amyloid)
 
 ggsave("figures/png/Figure_Race_Amyloid_Interaction.png", p_race_amyloid,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Race_Amyloid_Interaction.tiff", p_race_amyloid,
+ggsave("figures/tif/Figure_Race_Amyloid_Interaction.tif", p_race_amyloid,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 
 # ---------------------------------------------------------
@@ -1736,7 +1768,7 @@ print(p_race_tau)
 
 ggsave("figures/png/Figure_Race_Tau_Interaction.png", p_race_tau,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Race_Tau_Interaction.tiff", p_race_tau,
+ggsave("figures/tif/Figure_Race_Tau_Interaction.tif", p_race_tau,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 
 # ---------------------------------------------------------
@@ -1774,7 +1806,7 @@ print(p_race_neuro)
 
 ggsave("figures/png/Figure_Race_N_Interaction.png", p_race_neuro,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Race_N_Interaction.tiff", p_race_neuro,
+ggsave("figures/tif/Figure_Race_N_Interaction.tif", p_race_neuro,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -1873,10 +1905,10 @@ rsvg_png(charToRaw(svg_obj),
          file = "figures/png/Figure_Conceptual_Diagram.png",
          width = 4200, height = 3000)
 
-# Save TIFF
+# Save tif
 bitmap <- rsvg(charToRaw(svg_obj), width = 4200, height = 3000)
 
-tiff("figures/tiff/Figure_Conceptual_Diagram.tiff",
+tif("figures/tif/Figure_Conceptual_Diagram.tif",
      width = 4200, height = 3000, units = "px", compression = "lzw")
 grid::grid.raster(bitmap)
 dev.off()
@@ -2049,7 +2081,7 @@ print(p_cutpoint_heatmap)
 ggsave("figures/png/Figure_Cutpoint_Sensitivity.png", p_cutpoint_heatmap,
        width = 12, height = 8, dpi = 300)
 
-ggsave("figures/tiff/Figure_Cutpoint_Sensitivity.tiff", p_cutpoint_heatmap,
+ggsave("figures/tif/Figure_Cutpoint_Sensitivity.tif", p_cutpoint_heatmap,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -2147,6 +2179,7 @@ sink()
 
 cat("Results summary saved to results/results_summary.rds and results/results_summary.txt\n")
 ```
+
 
 # ANALYSIS 13: VASCULAR COMORBIDITY BY RACE
 
@@ -2267,7 +2300,7 @@ print(p_vascular_comparison)
 
 ggsave("figures/png/Figure_S1_Vascular_Adjustment_Comparison.png", p_vascular_comparison,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_S1_Vascular_Adjustment_Comparison.tiff", p_vascular_comparison,
+ggsave("figures/tif/Figure_S1_Vascular_Adjustment_Comparison.tif", p_vascular_comparison,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -2350,7 +2383,7 @@ print(p_cvd_stratified)
 
 ggsave("figures/png/Figure_S2_CVD_Stratified_Associations.png", p_cvd_stratified,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_S2_CVD_Stratified_Associations.tiff", p_cvd_stratified,
+ggsave("figures/tif/Figure_S2_CVD_Stratified_Associations.tif", p_cvd_stratified,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -2414,7 +2447,7 @@ print(p_calibration)
 
 ggsave("figures/png/Figure_S3_Calibration_by_Race.png", p_calibration,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_S3_Calibration_by_Race.tiff", p_calibration,
+ggsave("figures/tif/Figure_S3_Calibration_by_Race.tif", p_calibration,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 
 # Calibration statistics
@@ -2614,7 +2647,7 @@ if (nrow(plot_overall) == 0 || nrow(plot_race) == 0) {
   )
 
   ggsave(
-    "figures/tiff/Figure_S4_Optimal_Cutpoints_Comparison.tiff",
+    "figures/tif/Figure_S4_Optimal_Cutpoints_Comparison.tif",
     p_cutpoint_comparison,
     width = 12, height = 8, dpi = 300,
     compression = "lzw"
@@ -2685,7 +2718,7 @@ print(p_fairness_heatmap)
 
 ggsave("figures/png/Figure_Main_Fairness_Heatmap.png", p_fairness_heatmap,
        width = 12, height = 8, dpi = 300)
-ggsave("figures/tiff/Figure_Main_Fairness_Heatmap.tiff", p_fairness_heatmap,
+ggsave("figures/tif/Figure_Main_Fairness_Heatmap.tif", p_fairness_heatmap,
        width = 12, height = 8, dpi = 300, compression = "lzw")
 ```
 
@@ -2747,8 +2780,8 @@ list.files("figures/png", pattern = "\\.png$", full.names = FALSE) %>%
   paste("  -", .) %>%
   cat(sep = "\n")
 
-cat("\n\nFigures generated (TIFF):\n")
-list.files("figures/tiff", pattern = "\\.tiff$", full.names = FALSE) %>%
+cat("\n\nFigures generated (tif):\n")
+list.files("figures/tif", pattern = "\\.tif$", full.names = FALSE) %>%
   paste("  -", .) %>%
   cat(sep = "\n")
 
