@@ -2601,7 +2601,7 @@ bootstrap_cutpoint_ci <- function(data, biomarker_var,
 }
 
 ############################################################
-# FUNCTION 3 — Add CI columns (FIXED)
+# FUNCTION 3 — Add CI columns
 ############################################################
 
 add_ci_columns <- function(df, data) {
